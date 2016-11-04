@@ -13,7 +13,7 @@ It uses [paho-mqtt](https://github.com/eclipse/paho.mqtt.python) as a client and
 apt-get update
 apt-get install git
 cd /usr/bin
-git clone https://github.com/eclipse/paho.mqtt.python
+git -c http.sslVerify=false clone https://github.com/eclipse/paho.mqtt.python
 cd paho.mqtt.python
 python setup.py install
 cd /home/ev3
