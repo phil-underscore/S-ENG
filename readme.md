@@ -31,3 +31,7 @@ and set your robots position in the line
 `apt-get install mosquitto`
 
 * download and run ev3_mqtt_server.py
+
+## use scripts in c++ code
+* Call scripts with ` system("./path_to_script/script.py");`
+* Read return values from `stat` text file
