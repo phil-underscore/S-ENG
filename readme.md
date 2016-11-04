@@ -7,8 +7,8 @@ It uses [paho-mqtt](https://github.com/eclipse/paho.mqtt.python) as a client and
 
 
 ## client installation
-1) log into your EV3 as root
-2) Install git:
+* log into your EV3 as root
+* Install git:
 ```
 apt-get update
 apt-get install git
@@ -18,12 +18,16 @@ cd paho.mqtt.python
 python setup.py install
 cd /home/ev3
 ```
-3) download the scripts and put them in your EV3 home directory (where your 'main' file is)
-4) `nano ev3_mqtt_client.py`
+* download the scripts and put them in your EV3 home directory (where your 'main' file is)
+* Open client script in a editor
+`nano ev3_mqtt_client.py`
 and set your robots position in the line
-5) `chmod +x ev3_mqtt_client.py`
+* allow execution
+`chmod +x ev3_mqtt_client.py`
 
 ## server installation
-1) setup an wifi AP
-2) `apt-get install mosquitto`
-3) download and run ev3_mqtt_server.py
+* setup an wifi AP
+* Install mosquitto
+`apt-get install mosquitto`
+
+* download and run ev3_mqtt_server.py
