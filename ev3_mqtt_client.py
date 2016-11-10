@@ -3,6 +3,9 @@
 # MQTT-Client for ET4 Software Engineering at HS Ulm WS16
 # This scipt will send a status query to the broker and write
 # the recieved message to a temporary file ("stat") for use in a c++ program
+# '0' : workspace clear
+# '1' : neighbour busy
+# '2' : connection error
 
 # Caution: Very crude script without any safety or security functions
 # PROOF OF CONCEPT ONLY!
@@ -19,12 +22,14 @@ def on_connect(client, userdata, flags, rc):
     client.publish("topic/ev3/query", "Status?");
   else:
     print("Connection failed with error code " + str(rc))
+    tmp = open('stat','w')
+    tmp.write("2" + "\n")
 
 def on_message(client, userdata, msg):
   if (msg.topic == "topic/ev3/status"):
-    tmp = open('stat','w')
+#    tmp = open('stat','w')
     print(msg.payload + " recieved")
-    tmp.write(msg.payload + "\n")
+#    tmp.write(msg.payload + "\n")
     if(pos == '1'):
       SOI = '0' + msg.payload[int(pos)-1] + msg.payload[int(pos)]
     elif(pos == '5'):
@@ -36,13 +41,18 @@ def on_message(client, userdata, msg):
       end_action()
     elif(SOI == "000"):
       start_action()
+      tmp = open('stat','w')
+      tmp.write("0" + "\n")
     else:
-      print("Activity in workspace detected, try again later")      	
+      print("Activity in workspace detected, try again later")   
+      tmp = open('stat','w')
+      tmp.write("1" + "\n")
     client.disconnect()
 	
 def start_action():
   client.publish("topic/ev3/query", "busy" + pos)		
   print("Workspace free, beginning action")
+
   
 def end_action():
   client.publish("topic/ev3/query", "free" + pos)
