@@ -12,6 +12,9 @@ It uses [paho-mqtt](https://github.com/eclipse/paho.mqtt.python) as a client and
 ```
 apt-get update
 apt-get install git
+```
+* Install mqtt library
+```
 cd /usr/bin
 git -c http.sslVerify=false clone https://github.com/eclipse/paho.mqtt.python
 cd paho.mqtt.python
