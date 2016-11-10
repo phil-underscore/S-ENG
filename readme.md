@@ -15,26 +15,34 @@ apt-get install git
 ```
 * Install mqtt library
 ```
-cd /usr/bin
+cd /usr/local/src
 git -c http.sslVerify=false clone https://github.com/eclipse/paho.mqtt.python
 cd paho.mqtt.python
 python setup.py install
-cd /home/ev3
 ```
-* download the scripts and put them in your EV3 home directory (where your 'main' file is)
-* Open client script in a editor
-`nano ev3_mqtt_client.py`
-and set your robots position in the line
+* download the script and put it in your EV3 home directory (where your 'main' file is). Note: Even though we only need ev3_mqtt_client.py on the EV3s, we clone the whole repository. This helps with debugging and testing as EV3s usually operate without internet access. 
+```
+cd /home/ev3
+git -c http.sslVerify=false clone https://github.com/phil-underscore/S-ENG MQTT
+cp MQTT/ev3_mqtt_client.py client.py
+
+```
+* Open client script in a editor. Note that we created a copy of `ev3_mqtt_client.py` and called it `client.py`
+```
+nano client.py
+```
+and set your robots position (X) in the line `pos = 'X'`
 * allow execution
-`chmod +x ev3_mqtt_client.py`
+`chmod +x client.py`
 
 ## server installation
 * setup an wifi AP
 * Install mosquitto
 `apt-get install mosquitto`
 
-* download and run ev3_mqtt_server.py
+* download and run ev3_mqtt_server.py (see client installation above)
 
 ## use scripts in c++ code
-* Call scripts with ` system("./path_to_script/script.py");`
-* Read return values from `stat` text file
+* Call scripts with ` system("./path_to_script/script.py");` 
+* If client.py is in the same directory as your main file (that should be the case if you followed the instructions above) you can just use `system("./client.py");` in c++
+* Read return values from `stat` text file.
