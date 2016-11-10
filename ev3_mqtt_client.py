@@ -6,12 +6,13 @@
 # '0' : workspace clear
 # '1' : neighbour busy
 # '2' : connection error
+# '9' : network error
 
 # Caution: Very crude script without any safety or security functions
 # PROOF OF CONCEPT ONLY!
 
 global pos
-pos = '1'
+pos = '2'
 
 import paho.mqtt.client as mqtt
 
@@ -22,14 +23,11 @@ def on_connect(client, userdata, flags, rc):
     client.publish("topic/ev3/query", "Status?");
   else:
     print("Connection failed with error code " + str(rc))
-    tmp = open('stat','w')
-    tmp.write("2" + "\n")
+    write_to_file('2')
 
 def on_message(client, userdata, msg):
   if (msg.topic == "topic/ev3/status"):
-#    tmp = open('stat','w')
     print(msg.payload + " recieved")
-#    tmp.write(msg.payload + "\n")
     if(pos == '1'):
       SOI = '0' + msg.payload[int(pos)-1] + msg.payload[int(pos)]
     elif(pos == '5'):
@@ -41,22 +39,28 @@ def on_message(client, userdata, msg):
       end_action()
     elif(SOI == "000"):
       start_action()
-      tmp = open('stat','w')
-      tmp.write("0" + "\n")
+      write_to_file('0')
     else:
-      print("Activity in workspace detected, try again later")   
-      tmp = open('stat','w')
-      tmp.write("1" + "\n")
+      print("Activity in workspace detected, try again later")
+      write_to_file('1')
     client.disconnect()
-	
+
 def start_action():
-  client.publish("topic/ev3/query", "busy" + pos)		
+  client.publish("topic/ev3/query", "busy" + pos)
   print("Workspace free, beginning action")
 
-  
+
 def end_action():
   client.publish("topic/ev3/query", "free" + pos)
   print("Finished action, workspace is free again")
+
+
+def write_to_file(msg):
+ tmp = open('stat','w')
+ tmp.write(msg + "\n")
+ tmp.close()
+
+write_to_file('9')
 
 client = mqtt.Client()
 client.connect("172.24.1.1",1883,60)
@@ -65,4 +69,5 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 client.loop_forever()
+
 
