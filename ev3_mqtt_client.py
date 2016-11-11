@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# MQTT-Client for ET4 Software Engineering at HS Ulm WS16
 # This scipt will send a status query to the broker and write
 # the recieved message to a temporary file ("stat") for use in a c++ program
 # '0' : workspace clear
