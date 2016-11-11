@@ -4,7 +4,8 @@
 # the recieved message to a temporary file ("stat") for use in a c++ program
 # '0' : workspace clear
 # '1' : neighbour busy
-# '2' : connection error
+# '2' : action ended, status message sent
+# '8' : connection error
 # '9' : network error
 
 # Caution: Very crude script without any safety or security functions
@@ -22,7 +23,7 @@ def on_connect(client, userdata, flags, rc):
     client.publish("topic/ev3/query", "Status?");
   else:
     print("Connection failed with error code " + str(rc))
-    write_to_file('2')
+    write_to_file('8')
 
 def on_message(client, userdata, msg):
   if (msg.topic == "topic/ev3/status"):
@@ -36,6 +37,7 @@ def on_message(client, userdata, msg):
 
     if (SOI[1] == '1'):
       end_action()
+      write_to_file('2')
     elif(SOI == "000"):
       start_action()
       write_to_file('0')
