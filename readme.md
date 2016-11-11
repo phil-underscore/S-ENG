@@ -37,10 +37,12 @@ and set your robots position (X) in the line `pos = 'X'`
 
 ## server installation
 * setup an wifi AP
+* Install paho-mqtt (see above)
 * Install mosquitto
-`apt-get install mosquitto`
+`apt-get install mosquitto` 
+and run it
 
-* download and run ev3_mqtt_server.py (see client installation above)
+* download and run rpi_mqtt_server.py (see client installation above)
 
 ## use scripts in c++ code
 * Call scripts with ` system("./path_to_script/script.py");` 
