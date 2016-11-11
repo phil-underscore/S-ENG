@@ -2,7 +2,6 @@
 
 import paho.mqtt.client as mqtt
 
-# MQTT-Client for ET4 Software Engineering at HS Ulm WS16
 # This will recieve all status messages and return information 
 # on other robots.
 
